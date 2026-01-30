@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - CUET Lost & Found</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <h2>🎯 CUET Lost & Found</h2>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="super-admin.html">Dashboard</a></li>
+                <li><a href="admin.html" class="active">Manage Items</a></li>
+                <li><a href="#" id="logoutBtn">Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="page-header admin-header">
+        <div class="container">
+            <h1>⚙️ Admin Dashboard</h1>
+            <p>Manage lost and found items</p>
+        </div>
+    </section>
+
+    <!-- Dashboard Section -->
+    <section class="admin-dashboard">
+        <div class="container">
+            <!-- Stats Cards -->
+            <div class="admin-stats">
+                <div class="admin-stat-card">
+                    <div class="stat-icon pending">📋</div>
+                    <div class="stat-content">
+                        <h3 id="pendingCount">0</h3>
+                        <p>Pending Reviews</p>
+                    </div>
+                </div>
+                <div class="admin-stat-card">
+                    <div class="stat-icon approved">✅</div>
+                    <div class="stat-content">
+                        <h3 id="approvedCount">0</h3>
+                        <p>Approved Items</p>
+                    </div>
+                </div>
+                <div class="admin-stat-card">
+                    <div class="stat-icon matched">🤝</div>
+                    <div class="stat-content">
+                        <h3 id="matchedCount">0</h3>
+                        <p>Matched Items</p>
+                    </div>
+                </div>
+                <div class="admin-stat-card">
+                    <div class="stat-icon total">📊</div>
+                    <div class="stat-content">
+                        <h3 id="totalCount">0</h3>
+                        <p>Total Items</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tabs -->
+            <div class="admin-tabs">
+                <button class="admin-tab active" data-tab="pending">
+                    Pending Reviews <span class="badge" id="pendingBadge">0</span>
+                </button>
+                <button class="admin-tab" data-tab="approved">
+                    Approved Items <span class="badge" id="approvedBadge">0</span>
+                </button>
+                <button class="admin-tab" data-tab="rejected">
+                    Rejected Items <span class="badge" id="rejectedBadge">0</span>
+                </button>
+            </div>
+
+            <!-- Filters -->
+            <div class="admin-filters">
+                <div class="filter-row">
+                    <select id="adminCategoryFilter" class="filter-select">
+                        <option value="">All Categories</option>
+                        <option value="electronics">📱 Electronics</option>
+                        <option value="accessories">👜 Accessories</option>
+                        <option value="clothing">👕 Clothing</option>
+                        <option value="books">📚 Books & Stationery</option>
+                        <option value="documents">📄 Documents</option>
+                        <option value="keys">🔑 Keys & Cards</option>
+                        <option value="sports">⚽ Sports Equipment</option>
+                        <option value="other">🔹 Other</option>
+                    </select>
+
+                    <select id="adminStatusFilter" class="filter-select">
+                        <option value="">All Status</option>
+                        <option value="lost">Lost Items</option>
+                        <option value="found">Found Items</option>
+                    </select>
+
+                    <input type="text" id="adminSearchInput" class="filter-input" placeholder="Search items...">
+                    <button class="btn btn-outline" id="adminSearchBtn">Search</button>
+                </div>
+            </div>
+
+            <!-- Tab Content -->
+            <div class="admin-content">
+                <!-- Pending Tab -->
+                <div id="pendingTab" class="tab-pane active">
+                    <div class="admin-table-wrapper">
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Type</th>
+                                    <th>Item Name</th>
+                                    <th>Category</th>
+                                    <th>Location</th>
+                                    <th>Date</th>
+                                    <th>Reporter</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="pendingTableBody">
+                                <!-- Rows will be populated by JavaScript -->
+                            </tbody>
+                        </table>
+                        <div id="noPending" class="no-data" style="display: none;">
+                            <p>No pending items to review</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Approved Tab -->
+                <div id="approvedTab" class="tab-pane">
+                    <div class="admin-table-wrapper">
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Type</th>
+                                    <th>Item Name</th>
+                                    <th>Category</th>
+                                    <th>Location</th>
+                                    <th>Date</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="approvedTableBody">
+                                <!-- Rows will be populated by JavaScript -->
+                            </tbody>
+                        </table>
+                        <div id="noApproved" class="no-data" style="display: none;">
+                            <p>No approved items</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Rejected Tab -->
+                <div id="rejectedTab" class="tab-pane">
+                    <div class="admin-table-wrapper">
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Type</th>
+                                    <th>Item Name</th>
+                                    <th>Category</th>
+                                    <th>Rejection Reason</th>
+                                    <th>Date</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="rejectedTableBody">
+                                <!-- Rows will be populated by JavaScript -->
+                            </tbody>
+                        </table>
+                        <div id="noRejected" class="no-data" style="display: none;">
+                            <p>No rejected items</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Item Detail Modal -->
+    <div id="adminModal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close">&times;</span>
+            <div id="adminModalBody">
+                <!-- Modal content will be populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Rejection Modal -->
+    <div id="rejectionModal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close" id="rejectModalClose">&times;</span>
+            <div class="modal-header">
+                <h2>Reject Item</h2>
+            </div>
+            <div class="modal-body">
+                <p>Please provide a reason for rejection:</p>
+                <textarea id="rejectionReason" class="form-input form-textarea" rows="4" placeholder="Enter rejection reason..."></textarea>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" id="cancelReject">Cancel</button>
+                <button class="btn btn-danger" id="confirmReject">Confirm Rejection</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>CUET Lost & Found</h3>
+                    <p>Making campus life easier, one found item at a time.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="search.html">Search</a></li>
+                        <li><a href="report-lost.html">Report Lost</a></li>
+                        <li><a href="report-found.html">Report Found</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <p>📧 support@cuetlostandfound.edu</p>
+                    <p>📞 +880-1234-567890</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 CUET Lost & Found Box. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/auth.js"></script>
+    <script>
+        // Require authentication before accessing this page
+        if (!isAuthenticated()) {
+            window.location.href = 'login.html';
+        }
+    </script>
+    <script src="js/admin.js"></script>
+    <script>
+        // Add logout functionality
+        document.getElementById('logoutBtn').addEventListener('click', function(e) {
+            e.preventDefault();
+            logout();
+        });
+    </script>
+</body>
+</html>
